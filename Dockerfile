@@ -2,9 +2,6 @@ FROM python:2.7
 
 MAINTAINER  Michael van Tellingen <michaelvantellingen@gmail.com>
 
-# Install required packages
-RUN apt-get update
-
 # Create user / env
 RUN useradd -r localshop -d /opt/localshop
 RUN mkdir -p /opt/localshop/var && \
