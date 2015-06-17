@@ -22,8 +22,11 @@ RUN . ${VENV}/bin/activate; \
 
 ENV DJANGO_STATIC_ROOT /opt/localshop/static
 
+
 # Install localshop
-RUN pip install https://github.com/mvantellingen/localshop/archive/develop.zip#egg=localshop
+RUN . ${VENV}/bin/activate; \
+    pip install -r requirements.txt
+
 
 # Initialize the app
 RUN DJANGO_SECRET_KEY=tmp localshop collectstatic --noinput
