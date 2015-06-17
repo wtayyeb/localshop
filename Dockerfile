@@ -12,16 +12,18 @@ ENV VENV /opt/localshop/venv
 RUN virtualenv ${VENV}
 
 
+# Install docker related requirements
+RUN . ${VENV}/bin/activate; \
+    pip install psycopg2==2.6.0 \
+                uwsgi==2.0.10 \
+                honcho==0.6.6
+
+
+
 ENV DJANGO_STATIC_ROOT /opt/localshop/static
 
 # Install localshop
 RUN pip install https://github.com/mvantellingen/localshop/archive/develop.zip#egg=localshop
-
-# Install uWSGI / Honcho
-run pip install psycopg2==2.6.0
-run pip install uwsgi==2.0.10
-run pip install honcho==0.6.6
-
 
 # Initialize the app
 RUN DJANGO_SECRET_KEY=tmp localshop collectstatic --noinput
