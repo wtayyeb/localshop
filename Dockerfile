@@ -2,12 +2,8 @@ FROM python:2.7
 
 MAINTAINER  Michael van Tellingen <michaelvantellingen@gmail.com>
 
-# Create user / env
-RUN useradd -r localshop -d /opt/localshop
-RUN mkdir -p /opt/localshop/var && \
-    chown -R localshop:localshop /opt/localshop/
-RUN easy_install -U pip
-
+# Create localshop user and group
+RUN useradd -r -U -m -m -d /opt/localshop -s /sbin/nologin localshop
 
 ENV DJANGO_STATIC_ROOT /opt/localshop/static
 
@@ -20,11 +16,12 @@ run pip install uwsgi==2.0.10
 run pip install honcho==0.6.6
 
 
-# Switch to user
-USER localshop
-
 # Initialize the app
 RUN DJANGO_SECRET_KEY=tmp localshop collectstatic --noinput
+
+
+# Switch to user
+USER localshop
 
 EXPOSE 8000
 
