@@ -24,6 +24,9 @@ ENV DJANGO_STATIC_ROOT /opt/localshop/static
 
 
 # Install localshop
+ADD . /opt/localshop
+WORKDIR /opt/localshop
+
 RUN . ${VENV}/bin/activate; \
     pip install -r requirements.txt
 
