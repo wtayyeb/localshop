@@ -5,6 +5,13 @@ MAINTAINER  Michael van Tellingen <michaelvantellingen@gmail.com>
 # Create localshop user and group
 RUN useradd -r -U -m -m -d /opt/localshop -s /sbin/nologin localshop
 
+
+# Create virtualenv
+ENV VENV /opt/localshop/venv
+
+RUN virtualenv ${VENV}
+
+
 ENV DJANGO_STATIC_ROOT /opt/localshop/static
 
 # Install localshop
