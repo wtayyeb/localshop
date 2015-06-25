@@ -41,4 +41,5 @@ USER localshop
 
 EXPOSE 8000
 
-CMD uwsgi --http 0.0.0.0:8000 --module localshop.wsgi --master --die-on-term
+CMD /opt/localshop/venv/bin/uwsgi \
+    --http 0.0.0.0:8000 --module localshop.wsgi --master --die-on-term
