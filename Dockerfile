@@ -32,7 +32,8 @@ RUN . ${VENV}/bin/activate; \
 
 
 # Initialize the app
-RUN DJANGO_SECRET_KEY=tmp localshop collectstatic --noinput
+RUN DJANGO_SECRET_KEY=tmp \
+    /opt/localshop/venv/bin/localshop collectstatic --noinput
 
 
 # Switch to user
