@@ -10,6 +10,7 @@ from django.utils.timezone import now
 
 from localshop.apps.packages import models, forms
 from localshop.apps.packages.utils import md5_hash_file
+from localshop.apps.packages.pypi import normalize_name
 from localshop.utils import no_duplicates, enqueue
 
 
@@ -37,7 +38,11 @@ def fetch_package(self, repository_pk, slug):
         package = repository.packages.get(name=name)
         releases = package.get_all_releases()
     except models.Package.DoesNotExist:
-        package = repository.packages.create(name=name)
+        normalized_name = normalize_name(name)
+        package = repository.packages.create(
+            name=name,
+            normalized_name=normalized_name,
+        )
         releases = {}
 
     for version, release_list in package_data['releases'].items():
@@ -133,5 +138,5 @@ def update_packages():
     logging.info('Updated packages')
     for package in models.Package.objects.filter(is_local=False):
         logging.info('Updating package %s', package.name)
-        enqueue(fetch_package, package.name)
+        enqueue(fetch_package, package.repository.pk, package.name)
     logging.info('Complete')

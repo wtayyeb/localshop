@@ -5,6 +5,7 @@ import pkg_resources
 from docutils.utils import SystemMessage
 from shutil import copyfileobj
 from tempfile import NamedTemporaryFile
+import pkg_resources  # from `distribute`
 
 from django.conf import settings
 from django.db import models
@@ -76,6 +77,7 @@ class Package(models.Model):
     repository = models.ForeignKey(Repository, related_name='packages')
 
     name = models.SlugField(max_length=200)
+    normalized_name = models.SlugField(max_length=200)
 
     #: Indicate if this package is local (a private package)
     is_local = models.BooleanField(default=False)
@@ -104,7 +106,8 @@ class Package(models.Model):
 
     def get_ordered_releases(self):
         releases = list(self.releases.all())
-        releases.sort(key=lambda rel: pkg_resources.parse_version(rel.version), reverse=True)
+        releases.sort(key=lambda rel: pkg_resources.parse_version(rel.version),
+                      reverse=True)
         return releases
 
     def get_all_releases(self):
