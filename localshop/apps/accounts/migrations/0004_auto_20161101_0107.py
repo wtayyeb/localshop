@@ -9,7 +9,7 @@ import django.contrib.auth.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('accounts', '0002_migrate_users'),
+        ('accounts', '0003_migrate_credentials'),
     ]
 
     operations = [

@@ -16,7 +16,7 @@ def forwards(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('packages', '0006_repository_upstream_pypi_url'),
+        ('packages', '0007_auto_20150909_2245'),
     ]
 
     operations = [
