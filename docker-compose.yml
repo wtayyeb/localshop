@@ -21,7 +21,7 @@ web:
         - DJANGO_MEDIA_ROOT=/localshop/media
     ports:
         - "8000:8000"
-    command: uwsgi --http 0.0.0.0:8000 --module localshop.wsgi --master --die-on-term
+    command: /opt/localshop/venv/bin/uwsgi --http 0.0.0.0:8000 --module localshop.wsgi --master --die-on-term
 
 
 worker:
@@ -35,6 +35,6 @@ worker:
         - DATABASE_URL=postgresql://localshop:shopping@db/localshop
         - DJANGO_MEDIA_ROOT=/localshop/media
     entrypoint:
-        localshop
+        /opt/localshop/venv/bin/localshop
     command: 
         celery worker -B -E
