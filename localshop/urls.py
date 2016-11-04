@@ -28,7 +28,7 @@ urlpatterns = [
     # Backwards compatible url (except for POST requests)
     url(r'^simple/?$', SimpleIndex.as_view(), {'repo': 'default'}),
     url(r'^simple/(?P<path>.*)',
-        RedirectView.as_view(url='/repo/default/%(path)s')),
+        RedirectView.as_view(url='/repo/default/%(path)s', permanent=True)),
 
     url(r'^accounts/', include('localshop.apps.accounts.auth_urls')),
     url(r'^accounts/',
