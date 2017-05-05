@@ -2,44 +2,33 @@ FROM python:2.7
 
 MAINTAINER  Michael van Tellingen <michaelvantellingen@gmail.com>
 
-# Create localshop user and group
-RUN useradd -r -U -m -m -d /opt/localshop -s /sbin/nologin localshop
+# Install required packages
+RUN apt-get update
 
-
-# Create virtualenv
-ENV VENV /opt/localshop/venv
-
-RUN virtualenv ${VENV}
-
-
-# Install docker related requirements
-RUN . ${VENV}/bin/activate; \
-    pip install psycopg2~=2.6.0 \
-                uwsgi~=2.0.10 \
-                honcho~=0.6.6
-
+# Create user / env
+RUN useradd -r localshop -d /opt/localshop
+RUN mkdir -p /opt/localshop/var && \
+    chown -R localshop:localshop /opt/localshop/
+RUN easy_install -U pip
 
 
 ENV DJANGO_STATIC_ROOT /opt/localshop/static
 
-
 # Install localshop
-ADD . /opt/localshop
-WORKDIR /opt/localshop
+RUN pip install https://github.com/jazzband/localshop/archive/develop.zip#egg=localshop
 
-RUN . ${VENV}/bin/activate; \
-    pip install -r requirements.txt
-
-
-# Initialize the app
-RUN DJANGO_SECRET_KEY=tmp \
-    /opt/localshop/venv/bin/localshop collectstatic --noinput
+# Install uWSGI / Honcho
+run pip install psycopg2==2.6.0
+run pip install uwsgi==2.0.10
+run pip install honcho==0.6.6
 
 
 # Switch to user
 USER localshop
 
+# Initialize the app
+RUN DJANGO_SECRET_KEY=tmp localshop collectstatic --noinput
+
 EXPOSE 8000
 
-CMD /opt/localshop/venv/bin/uwsgi \
-    --http 0.0.0.0:8000 --module localshop.wsgi --master --die-on-term
+CMD uwsgi --http 0.0.0.0:8000 --module localshop.wsgi --master --die-on-term
