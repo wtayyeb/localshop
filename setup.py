@@ -17,7 +17,7 @@ tests_require = [
 
 setup(
     name='localshop',
-    version='0.10.5',
+    version='0.10.0.6',
     author='Michael van Tellingen',
     author_email='michaelvantellingen@gmail.com',
     url='http://github.com/jazzband/localshop/',
