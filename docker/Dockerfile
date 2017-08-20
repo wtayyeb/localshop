@@ -23,10 +23,9 @@ EXPOSE 8000
 CMD ["/usr/bin/supervisord"]
 COPY supervisord.conf /etc/supervisor/supervisord.conf
 
-ENV ENV_CELERYD_ARGS='' \
-    ENV_GUNICORN_ARGS=''
-
 # install localshop itself
 RUN ${LOCALSHOP_HOME}/venv/bin/pip install --no-cache-dir https://github.com/wtayyeb/localshop/archive/develop.zip#egg=localshop
 RUN DJANGO_SECRET_KEY='dummy' ${LOCALSHOP_HOME}/venv/bin/localshop collectstatic --noinput
 
+ENV ENV_CELERYD_ARGS='' \
+    ENV_GUNICORN_ARGS=''
