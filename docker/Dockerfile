@@ -26,6 +26,6 @@ CMD ["/usr/bin/supervisord"]
 COPY supervisord.conf /etc/supervisord
 
 # install localshop itself
-RUN ${LOCALSHOP_HOME}/venv/bin/pip install --no-cache-dir https://github.com/wtayyeb/localshop/archive/master.zip#egg=localshop
+RUN ${LOCALSHOP_HOME}/venv/bin/pip install --no-cache-dir https://github.com/wtayyeb/localshop/archive/develop.zip#egg=localshop
 RUN ${LOCALSHOP_HOME}/venv/bin/localshop collectstatic --noinput
 
