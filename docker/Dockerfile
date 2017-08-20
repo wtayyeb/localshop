@@ -22,7 +22,7 @@ EXPOSE 8000
 #ENTRYPOINT ["/home/localshop/entrypoint.sh"]
 CMD ["/usr/bin/supervisord"]
 
-COPY supervisord.conf /etc/supervisord
+COPY supervisord.conf /etc/supervisor/supervisord.conf
 
 # install localshop itself
 RUN ${LOCALSHOP_HOME}/venv/bin/pip install --no-cache-dir https://github.com/wtayyeb/localshop/archive/develop.zip#egg=localshop
