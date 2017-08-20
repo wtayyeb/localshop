@@ -1,12 +1,12 @@
 FROM python:2.7
 MAINTAINER  w.tayyeb <w.tayyeb@gmail.com>
 
-ENV LOCALSHOP_HOME=/opt/localshop \
-    DJANGO_STATIC_ROOT=${LOCALSHOP_HOME}/static
-#
 RUN apt update \
         && apt install -y --no-install-recommends supervisor \
     && rm -rf /var/lib/apt/lists/*
+
+ENV LOCALSHOP_HOME=/opt/localshop \
+    DJANGO_STATIC_ROOT=${LOCALSHOP_HOME}/static
 
 # Create user / env
 RUN useradd -r localshop -d ${LOCALSHOP_HOME} \
